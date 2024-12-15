@@ -1,20 +1,21 @@
 package com.example.exercisejparelationi1.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
-@Data
+import java.util.Set;
+
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(columnDefinition = "varchar(10) not null")
     @NotEmpty(message = "name should not be empty")
@@ -38,5 +39,9 @@ public class Teacher {
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Address address;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy ="teacher" )
+    private Set<Course> Course;
 
 }
