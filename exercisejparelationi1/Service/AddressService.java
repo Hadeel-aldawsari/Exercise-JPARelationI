@@ -22,11 +22,17 @@ public class AddressService {
         return addressRepository.findAll();
     }
     public void add(AddressDTO addressDTO) {
-        addressRepository.save(addressDTO);
+        Teacher teacher=teacherRepository.findTeacherById(addressDTO.getTeacher_id());
+        if(teacher==null){
+            throw new ApiException("teacher not found");
+        }
+
+        Address address=new Address(null,addressDTO.getArea(),addressDTO.getStreet(),addressDTO.getBuildingNumber(),teacher);
+        addressRepository.save(address);
     }
 
     public void update(AddressDTO addressDTO) {
-        Address a = addressRepository.findAddressById(addressDTO.getTeacherId());
+        Address a = addressRepository.findAddressById(addressDTO.getTeacher_id());
         if (a == null) {
             throw new ApiException("address id not found");
         }
